@@ -2,7 +2,7 @@
 Author: Chau Lap Tou
 Date: 2021-08-31 11:27:17
 LastEditors: Chau Lap Tou
-LastEditTime: 2021-09-01 21:43:09
+LastEditTime: 2021-09-01 21:57:38
 python_exe: pyinstaller -F -w file_name.py -p C:/python/lib/site-packages 
 java_class: javac -encoding utf-8 file_name.java
 java_jar: jar -cvmf manifest.txt name.jar *.class
@@ -46,8 +46,8 @@ async def search (word,html_path,setting_path,wait_time = 3):
     finally:
         await browser.close()#*關閉瀏覽器
     
-def connect(word,html_path="../data/source.html",setting_path = "../data/setting.json"):
-    html = AN.get_event_loop().run_until_complete(search(word,html_path,setting_path))
+def connect(word,html_path="../data/source.html",setting_path = "../data/setting.json",wait_time = 3):
+    html = AN.get_event_loop().run_until_complete(search(word,html_path,setting_path,wait_time))
 
 if __name__ == "__main__":
     connect("complete")   
