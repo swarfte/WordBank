@@ -10,6 +10,7 @@ GithubName: Swarfte
 '''
 import pdfplumber as PP
 import re
+import json
 
 def get_pdf_data(path,rule = "default"):#*選取pdf檔案中的英文規則
     native_word = []
@@ -39,8 +40,17 @@ def get_pdf_data(path,rule = "default"):#*選取pdf檔案中的英文規則
         word.append(english)
 
     return word
-    
+
+def get_word_json(english_word,pdf_path): #生成自動補全用的生字庫
+    json_path = pdf_path.replace(".pdf",".json")
+    word_dict = {"english_word":english_word}
+    j_dict = json.loads(json.dumps(word_dict)) #變成json檔用的格式
+    with open(json_path,"w",encoding="utf-8") as j :
+        json.dump(j_dict,j)
+
 if __name__ == "__main__":
-    english = get_pdf_data("englishword.pdf")
-    use = [x.replace("'","\"") for x in english]
-    print(english)
+    pdf_file = "08 21-22 MENG111 Word Bank U3 (1).pdf"
+    english_word = get_pdf_data(pdf_file)
+    get_word_json(english_word,pdf_file)
+    # use = json.dumps(english)
+    # print(use)
