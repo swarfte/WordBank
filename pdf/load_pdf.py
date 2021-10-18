@@ -11,10 +11,14 @@ GithubName: Swarfte
 import pdfplumber as PP
 import re
 
-def get_pdf_data(path,rule = r"[0-9]{1,2}\.\s{2}[a-zA-Z]+\s?[a-zA-Z]*|[0-9]{3}\.\s[a-zA-Z]+\s?[a-zA-Z]*"):#*選取pdf檔案中的英文規則
+def get_pdf_data(path,rule = "default"):#*選取pdf檔案中的英文規則
     native_word = []
+    choice = re.compile(r"[0-9]{1,2}\.\s{2}[a-zA-Z]+(\s[a-zA-Z]+)*|[0-9]{3}\.\s[a-zA-Z]+(\s[a-zA-Z]+)*")
     word = []
-    choose = re.compile(rule)
+    if rule == "default":
+        choose = re.compile(choice)
+    else:
+        choose = re.compile(rule)
     first_page_word = ""
     with PP.open(path) as pdf:
         first_page = pdf.pages[0]#*讀取第一版的內容
@@ -29,7 +33,7 @@ def get_pdf_data(path,rule = r"[0-9]{1,2}\.\s{2}[a-zA-Z]+\s?[a-zA-Z]*|[0-9]{3}\.
     
     #native_word.sort()
     
-    word_rule = re.compile(r"[a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+")#*選取最終的生字
+    word_rule = re.compile(r"[a-zA-Z]+(\s[a-zA-Z]+)*")#*選取最終的生字
     for x in native_word:
         english = re.search(word_rule,x).group()
         word.append(english)
