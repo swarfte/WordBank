@@ -49,7 +49,7 @@ def get_word_json(english_word,pdf_path): #生成自動補全用的生字庫
         json.dump(j_dict,j)
 
 if __name__ == "__main__":
-    pdf_file = "08 21-22 MENG111 Word Bank U3 (1).pdf"
+    pdf_file = "15 21-22 MENG111 Word Bank U4.v2.pdf.pdf"
     english_word = get_pdf_data(pdf_file)
     get_word_json(english_word,pdf_file)
     # use = json.dumps(english)
