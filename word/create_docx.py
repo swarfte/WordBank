@@ -23,13 +23,18 @@ def build_docx_file_all(path, value, row=1, col=5):  # *108+1行
 
     data = value
 
+    line = 1
     for a, b, c, d, e in data:
-        row_cells = table.add_row().cells  # *用作表示表格的列
-        row_cells[0].text = a  # *第一列
-        row_cells[1].text = b  # *第二列
-        row_cells[2].text = c  # *第三列
-        row_cells[3].text = d  # *第四列
-        row_cells[4].text = e  # *第五列
+        try:
+            row_cells = table.add_row().cells  # *用作表示表格的列
+            row_cells[0].text = a  # *第一列
+            row_cells[1].text = b  # *第二列
+            row_cells[2].text = c  # *第三列
+            row_cells[3].text = d  # *第四列
+            row_cells[4].text = e  # *第五列
+            line += 1
+        except:
+            print(f"第{line}行生字出錯了")
 
     doc.save(path)  # *保存文件
 

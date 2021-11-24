@@ -1,35 +1,27 @@
-'''
-Author: Chau Lap Tou
-Date: 2021-08-31 11:27:17
-LastEditors: Chau Lap Tou
-LastEditTime: 2021-09-01 21:57:38
-python_exe: pyinstaller -F -w file_name.py -p C:/python/lib/site-packages 
-java_class: javac -encoding utf-8 file_name.java
-java_jar: jar -cvmf manifest.txt name.jar *.class
-GithubName: Swarfte
-'''
+
 import pyppeteer as PT
 import asyncio as AN
 import json
 
 
 def load_json(path):
-    with open(path, "r") as f:
+    with open(path, "r",encoding='utf-8') as f:
         file = json.load(f)
     return file
 
 
 def save_file(data, path):
-    with open(path, "w+") as f:
+    with open(path, "w+",encoding='utf-8') as f:
         f.write(data)
 
 
-async def search(word, html_path, setting_path, wait_time=4):
+async def search(word, html_path, setting_path, wait_time=5):
     browser = await PT.launch(headless=True, args=['--disable-infobars', '--start-maximized'], dumpio=True)  # *創建瀏覽器
     try:
-        # !headless設為False即可視化
-        # browser = await PT.launch(headless = False,args=['--disable-infobars','--start-maximized'],dumpio = True)#*創建瀏覽器
 
+    # !headless設為False即可視化
+    # browser = await PT.launch(headless = False,args=['--disable-infobars','--start-maximized'],dumpio = True)#*創建瀏覽器
+        print(f"正在查找{word}的詞性")
         page = await browser.newPage()  # *創建頁面
         setting = load_json(setting_path)
         await page.setViewport({  # *設置畫面的視窗大小
@@ -52,8 +44,11 @@ async def search(word, html_path, setting_path, wait_time=4):
         await browser.close()  # *關閉瀏覽器
 
 
+
 def connect(word, html_path="../data/source.html", setting_path="../data/setting.json", wait_time=3):
-    html = AN.get_event_loop().run_until_complete(search(word, html_path, setting_path, wait_time))
+    use_word = word.split(" ")
+    html = AN.get_event_loop().run_until_complete(search(use_word[0], html_path, setting_path, wait_time))
+    return word
 
 
 if __name__ == "__main__":

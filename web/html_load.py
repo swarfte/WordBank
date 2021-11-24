@@ -1,13 +1,4 @@
-'''
-Author: Chau Lap Tou
-Date: 2021-08-31 12:07:12
-LastEditors: Chau Lap Tou
-LastEditTime: 2021-09-01 22:52:43
-python_exe: pyinstaller -F -w file_name.py -p C:/python/lib/site-packages 
-java_class: javac -encoding utf-8 file_name.java
-java_jar: jar -cvmf manifest.txt name.jar *.class
-GithubName: Swarfte
-'''
+
 import bs4
 import re
 import opencc as OC
@@ -15,7 +6,7 @@ import web.YDTranslate as WYT
 
 
 def load_file(path):
-    with open(path, "r") as f:
+    with open(path, "r",encoding='utf-8') as f:
         text = f.read()
     return text
 
@@ -43,15 +34,20 @@ def htmlfilter(htmlfile):
         use_word = filter_word[2:]
         english_word.append(use_word)
 
+    print("查找中文ing")
     for x in state:
         use_word = x.text
         english_state.append(use_word)
+        cc = OC.OpenCC("s2t") # *簡轉繁
+        try:
+            s_chinese_word = WYT.ch_translate(english_word[0])  # 改用有道翻譯
+            use_chinese_word = cc.convert(s_chinese_word)
+            chinese.append(use_chinese_word)
+        except Exception as ex:
+            print(f"{ex}")
+            chinese.append("")
 
-    s_chinese_word = WYT.ch_translate(english_word[0])  # 改用有道翻譯
-    cc = OC.OpenCC("s2t")  # *簡轉繁
-    use_chinese_word = cc.convert(s_chinese_word)
-
-    chinese.append(use_chinese_word.translatedText)
+    # chinese.append(use_chinese_word.translatedText)
 
     return package
 
