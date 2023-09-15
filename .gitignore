@@ -1,5 +1,5 @@
-./data/source.html
+source.html
 __pycache__
-./pdf/*.pdf
-./venv
-./word/*.docx
+*.pdf
+venv
+*.docx
